@@ -9,9 +9,13 @@ Konstantin Edunov, 2024
 */
 
 window.addEventListener("load", () => {
+  let textDiv = document.getElementsByTagName("div")[0]
+  textDiv.setAttribute("style", "display: none !important;");
+  textDiv.remove();
+  textDiv = undefined;
   const nullURI = "data:application/octet-stream;base64,";
-  let itemsLeftToLoad = 1;
-  let assetImportArray = ["assets/gear.png"]
+  let assetImportArray = ["assets/gear.png"];
+  let itemsLeftToLoad = assetImportArray.length;
   function loadImagesWithArray(variableReferenceArray) {
     let URLURI = nullURI;
     const length = variableReferenceArray.length;
@@ -31,9 +35,9 @@ window.addEventListener("load", () => {
   const scaleWidth = 1600;
   const scaleHeight = 900;
   const expectedAspectRatio = 16 / 9;
-  const foreground = document.getElementById("foreground");
-  const stage = document.getElementById("stage");
-  const background = document.getElementById("background");
+  const foreground = document.getElementsByTagName("canvas")[2];
+  const stage = document.getElementsByTagName("canvas")[1];
+  const background = document.getElementsByTagName("canvas")[0];
   const foregroundContext = foreground.getContext("2d", { alpha: true });
   const stageContext = stage.getContext("2d", { alpha: true });
   const backgroundContext = background.getContext("2d", { alpha: true });
