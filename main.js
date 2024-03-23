@@ -14,7 +14,7 @@ window.addEventListener("load", () => {
   let gearIcon = new Image();
   gearIcon.addEventListener("load", () => {
     gearLoaded = true;
-    itemsLoaded--;
+    itemsLoaded++;
   });
   gearIcon.src = "assets/gear.png";
   let deltaTime = 13, previousFrame = 0;
@@ -48,7 +48,11 @@ window.addEventListener("load", () => {
     foreground.setAttribute("style", top + left);
     stage.setAttribute("style", top + left);
     background.setAttribute("style", top + left);
-    backgroundContext.fillStyle = "#FFFFFF";
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      backgroundContext.fillStyle = "#FFFFFF";
+    } else {
+      backgroundContext.fillStyle = "#000000";
+    };
     backgroundContext.beginPath();
     backgroundContext.rect(0, 0, width, height);
     backgroundContext.fill();
