@@ -9,10 +9,12 @@ Konstantin Edunov, 2024
 */
 
 window.addEventListener("load", () => {
+  let itemsLoaded = 1;
   let gearLoaded = false;
   let gearIcon = new Image();
   gearIcon.addEventListener("load", () => {
     gearLoaded = true;
+    itemsLoaded--;
   });
   gearIcon.src = "assets/gear.png";
   let deltaTime = 13, previousFrame = 0;
@@ -79,7 +81,7 @@ window.addEventListener("load", () => {
     foregroundContext.clearRect(0, 0, width, height);
     stageContext.clearRect(0, 0, width, height);
     if (gearLoaded && itemsLoaded !== 0) {
-      drawRotatedImage(foregroundContext, gearIcon, 736, 386, 2, thisFrame / 2)
+      drawRotatedImage(foregroundContext, gearIcon, 736, 386, 2, thisFrame / itemsLoaded)
     };
     window.requestAnimationFrame(frame);
   };
