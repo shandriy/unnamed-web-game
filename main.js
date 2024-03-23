@@ -10,30 +10,22 @@ Konstantin Edunov, 2024
 
 window.addEventListener("load", () => {
   const nullURI = "data:application/octet-stream;base64,";
-  let itemsLoaded = 1;
-  let gearLoaded = false;
-  let gearIcon = [new Image()];
-  gearIcon[0].addEventListener("load", () => {
-    gearLoaded = true;
-    itemsLoaded++;
-  });
+  let itemsLeftToLoad = 1;
   let assetImportArray = ["assets/gear.png"]
   function loadImagesWithArray(variableReferenceArray) {
     let URLURI = nullURI;
-    let length = variableReferenceArray.length;
+    const length = variableReferenceArray.length;
     for (let cycle = 0; cycle < length; cycle++) {
       URLURI = variableReferenceArray[cycle];
       variableReferenceArray[cycle] = new Image();
-      gearIcon[0].addEventListener("load", () => {
-        gearLoaded = true;
-        itemsLoaded++;
+      variableReferenceArray[cycle].addEventListener("load", () => {
+        itemsLeftToLoad--;
       });
-      gearIcon[0].src = "assets/gear.png";
+      variableReferenceArray[cycle].src = URLURI;
     };
-    variableReferenceArray[0] = "osu!";
   };
   loadImagesWithArray(assetImportArray);
-  gearIcon[0].src = "assets/gear.png";
+  const gearIcon = assetImportArray[0];
   let deltaTime = 13, previousFrame = 0;
   let aspectRatio = 16 / 9, width = 400, height = 300;
   const scaleWidth = 1600;
@@ -102,8 +94,8 @@ window.addEventListener("load", () => {
     previousFrame = thisFrame;
     foregroundContext.clearRect(0, 0, width, height);
     stageContext.clearRect(0, 0, width, height);
-    if (gearLoaded && itemsLoaded > 0) {
-      drawRotatedImage(foregroundContext, gearIcon[0], 736, 386, 2, thisFrame / itemsLoaded)
+    if (itemsLeftToLoad > 0) {
+      drawRotatedImage(foregroundContext, gearIcon, 736, 386, 2, thisFrame / itemsLeftToLoad)
     };
     window.requestAnimationFrame(frame);
   };
