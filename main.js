@@ -59,6 +59,7 @@ window.addEventListener("load", () => {
   };
   resizeCanvases();
   window.addEventListener("resize", resizeCanvases);
+  window.addEventListener("focus", resizeCanvases);
   function drawImage(context, image, x, y, scale) {
     let scaleX = width / scaleWidth;
     let scaleY = height / scaleHeight;
