@@ -80,7 +80,7 @@ window.addEventListener("load", () => {
     previousFrame = thisFrame;
     foregroundContext.clearRect(0, 0, width, height);
     stageContext.clearRect(0, 0, width, height);
-    if (gearLoaded && itemsLoaded !== 0) {
+    if (gearLoaded && itemsLoaded > 0) {
       drawRotatedImage(foregroundContext, gearIcon, 736, 386, 2, thisFrame / itemsLoaded)
     };
     window.requestAnimationFrame(frame);
