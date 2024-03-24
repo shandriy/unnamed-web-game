@@ -16,7 +16,7 @@ window.addEventListener("load", () => {
   const nullURI = "data:application/octet-stream;base64,";
   const loadScreen = ["gear"];
   const menus = ["gear"];
-  let itemsLeftToLoad = loadScreen.length + menus.length;
+  let itemsLeftToLoad = loadScreen.length + menus.length + 1;
   function loadImagesWithArray(variableReferenceArray, prefix, append) {
     let URLURI = nullURI;
     const length = variableReferenceArray.length;
@@ -75,24 +75,24 @@ window.addEventListener("load", () => {
   resizeCanvases();
   window.addEventListener("resize", resizeCanvases);
   window.addEventListener("focus", resizeCanvases);
-  function drawImage(context, image, x, y, scale) {
+  function drawImage(context, image, cropX1, cropY1, cropX2, cropY2, x, y, scale) {
     const scaleX = width / scaleWidth;
     const scaleY = height / scaleHeight;
-    const imageWidth = image.naturalWidth * scale * scaleX;
-    const imageHeight = image.naturalHeight * scale * scaleY;
-    context.drawImage(image, x * scaleX, y * scaleY, imageWidth, imageHeight);
+    const imageWidth = cropX2 * scale * scaleX;
+    const imageHeight = cropY2 * scale * scaleY;
+    context.drawImage(image, cropX1, cropY1, cropX2, cropY2, x * scaleX, y * scaleY, imageWidth, imageHeight);
   };
-  function drawRotatedImage(context, image, x, y, scale, degrees) {
+  function drawRotatedImage(context, image, cropX1, cropY1, cropX2, cropY2, x, y, scale, degrees) {
     const scaleX = width / scaleWidth;
     const scaleY = height / scaleHeight;
-    const imageWidth = image.naturalWidth * scale * scaleX;
-    const imageHeight = image.naturalHeight * scale * scaleY;
+    const imageWidth = cropX2 * scale * scaleX;
+    const imageHeight = cropY2 * scale * scaleY;
     const positionX = Math.round(imageWidth / 2 * (-1));
     const positionY = Math.round(imageHeight / 2 * (-1));
     context.save();
     context.translate(Math.round(x * scaleX + imageWidth / 2), Math.round(y * scaleY + imageHeight / 2));
     context.rotate((degrees % 360) / 57.2958);
-    context.drawImage(image, positionX, positionY, Math.round(imageWidth), Math.round(imageHeight));
+    context.drawImage(image, cropX1, cropY1, cropX2, cropY2, positionX, positionY, Math.round(imageWidth), Math.round(imageHeight));
     context.restore();
   };
   function frame(thisFrame) {
@@ -101,7 +101,11 @@ window.addEventListener("load", () => {
     foregroundContext.clearRect(0, 0, width, height);
     stageContext.clearRect(0, 0, width, height);
     if (itemsLeftToLoad > 0) {
-      drawRotatedImage(foregroundContext, gearIcon, 736, 386, 2, thisFrame / itemsLeftToLoad)
+      drawRotatedImage(foregroundContext, gearIcon, 0, 0, 64, 64, 0, 0, 1, thisFrame / itemsLeftToLoad)
+      drawRotatedImage(foregroundContext, gearIcon, 0, 0, 32, 32, 64, 0, 1, thisFrame / itemsLeftToLoad)
+      drawRotatedImage(foregroundContext, gearIcon, 32, 0, 32, 32, 128, 0, 1, thisFrame / itemsLeftToLoad)
+      drawRotatedImage(foregroundContext, gearIcon, 32, 32, 32, 32, 192, 0, 1, thisFrame / itemsLeftToLoad)
+      drawRotatedImage(foregroundContext, gearIcon, 0, 0, 32, 32, 256, 0, 1, thisFrame / itemsLeftToLoad)
     };
     window.requestAnimationFrame(frame);
   };
