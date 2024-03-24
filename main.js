@@ -14,9 +14,10 @@ window.addEventListener("load", () => {
   textDiv.remove();
   textDiv = undefined;
   const nullURI = "data:application/octet-stream;base64,";
-  let assetImportArray = ["assets/gear.png"];
-  let itemsLeftToLoad = assetImportArray.length;
-  function loadImagesWithArray(variableReferenceArray) {
+  const loadScreen = ["gear"];
+  const menus = ["gear"];
+  let itemsLeftToLoad = loadScreen.length + menus.length;
+  function loadImagesWithArray(variableReferenceArray, prefix, append) {
     let URLURI = nullURI;
     const length = variableReferenceArray.length;
     for (let cycle = 0; cycle < length; cycle++) {
@@ -25,11 +26,12 @@ window.addEventListener("load", () => {
       variableReferenceArray[cycle].addEventListener("load", () => {
         itemsLeftToLoad--;
       });
-      variableReferenceArray[cycle].src = URLURI;
+      variableReferenceArray[cycle].src = prefix + URLURI + append;
     };
   };
-  loadImagesWithArray(assetImportArray);
-  const gearIcon = assetImportArray[0];
+  loadImagesWithArray(loadScreen, "assets/images/load/", ".png");
+  loadImagesWithArray(menus, "assets/images/load/", ".png");
+  const gearIcon = loadScreen[0];
   let deltaTime = 13, previousFrame = 0;
   let aspectRatio = 16 / 9, width = 400, height = 300;
   const scaleWidth = 1600;
