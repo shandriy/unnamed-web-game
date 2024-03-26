@@ -33,7 +33,7 @@ window.addEventListener("load", (loaded) => {
   loadImagesWithArray(menus, "assets/images/load/", ".png");
   const gearIcon = loadScreen[0];
   let deltaTime = loaded.timeStamp, previousFrame = 0;
-  let aspectRatio = 16 / 9, width = 400, height = 300;
+  let aspectRatio = 16 / 9, width = 1920, height = 1080;
   const scaleWidth = 1600;
   const scaleHeight = 900;
   const expectedAspectRatio = 16 / 9;
