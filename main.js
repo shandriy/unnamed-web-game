@@ -8,7 +8,7 @@ Konstantin Edunov, 2024
 
 */
 
-window.addEventListener("load", () => {
+window.addEventListener("load", (loaded) => {
   let textDiv = document.getElementsByTagName("div")[0]
   textDiv.setAttribute("style", "display: none !important;");
   textDiv.remove();
@@ -32,7 +32,7 @@ window.addEventListener("load", () => {
   loadImagesWithArray(loadScreen, "assets/images/load/", ".png");
   loadImagesWithArray(menus, "assets/images/load/", ".png");
   const gearIcon = loadScreen[0];
-  let deltaTime = 13, previousFrame = 0;
+  let deltaTime = loaded.timeStamp, previousFrame = 0;
   let aspectRatio = 16 / 9, width = 400, height = 300;
   const scaleWidth = 1600;
   const scaleHeight = 900;
