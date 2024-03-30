@@ -32,6 +32,7 @@ window.addEventListener("load", (loaded) => {
   loadImagesWithArray(loadScreen, "assets/images/load/", ".png");
   loadImagesWithArray(menus, "assets/images/load/", ".png");
   const gearIcon = loadScreen[0];
+  let keysPressed = [];
   let deltaTime = loaded.timeStamp, previousFrame = 0;
   let aspectRatio = 16 / 9, width = 1920, height = 1080;
   const scaleWidth = 1600;
@@ -72,9 +73,24 @@ window.addEventListener("load", (loaded) => {
     backgroundContext.rect(0, 0, width, height);
     backgroundContext.fill();
   };
+  function keyDown(input) {
+    let key = input.key.toString().toUpperCase();
+    if (!keysPressed.includes(key)) {
+      keysPressed.push(key);
+    };
+  };
+  function keyUp(input) {
+    let key = input.key.toString().toUpperCase();
+    const index = keysPressed.indexOf(key);
+    if (index > -1) {
+      keysPressed.splice(index, 1);
+    };
+  };
   resizeCanvases();
   window.addEventListener("resize", resizeCanvases);
   window.addEventListener("focus", resizeCanvases);
+  window.addEventListener("keydown", keyDown);
+  window.addEventListener("keyup", keyUp);
   function drawImage(context, image, cropX1, cropY1, cropX2, cropY2, x, y, scale) {
     const scaleX = width / scaleWidth;
     const scaleY = height / scaleHeight;
