@@ -15,8 +15,8 @@ window.addEventListener("load", (loaded) => {
   textDiv = undefined;
   const nullURI = "data:application/octet-stream;base64,";
   const loadScreen = ["gear"];
-  const menus = ["gear"];
-  let itemsLeftToLoad = loadScreen.length + menus.length + 1;
+  const backgrounds = ["ground"];
+  let itemsLeftToLoad = loadScreen.length + backgrounds.length;
   function loadImagesWithArray(variableReferenceArray, prefix, append) {
     let URLURI = nullURI;
     const length = variableReferenceArray.length;
@@ -30,8 +30,9 @@ window.addEventListener("load", (loaded) => {
     };
   };
   loadImagesWithArray(loadScreen, "assets/images/load/", ".png");
-  loadImagesWithArray(menus, "assets/images/load/", ".png");
+  loadImagesWithArray(backgrounds, "assets/images/bg/", ".png");
   const gearIcon = loadScreen[0];
+  const ground = backgrounds[0]
   let keysPressed = [];
   let deltaTime = loaded.timeStamp, previousFrame = 0;
   let aspectRatio = 16 / 9, width = 1920, height = 1080;
@@ -111,17 +112,31 @@ window.addEventListener("load", (loaded) => {
     context.drawImage(image, cropX1, cropY1, cropX2, cropY2, positionX, positionY, Math.round(imageWidth), Math.round(imageHeight));
     context.restore();
   };
+  let player1 = {
+    x: 0, y: 0, hx: 64, hy: 64,
+    yVelocity: 0,
+    sprites: {idle: gearIcon}
+  };
+  let player2 = {
+    x: 0, y: 0, hx: 5, hy: 2
+  };
   function frame(thisFrame) {
     deltaTime = thisFrame - previousFrame;
     previousFrame = thisFrame;
     foregroundContext.clearRect(0, 0, width, height);
     stageContext.clearRect(0, 0, width, height);
+    backgroundContext.clearRect(0, 0, width, height);
     if (itemsLeftToLoad > 0) {
-      drawRotatedImage(foregroundContext, gearIcon, 0, 0, 64, 64, 0, 0, 1, thisFrame / itemsLeftToLoad)
-      drawRotatedImage(foregroundContext, gearIcon, 0, 0, 32, 32, 64, 0, 1, thisFrame / itemsLeftToLoad)
-      drawRotatedImage(foregroundContext, gearIcon, 32, 0, 32, 32, 128, 0, 1, thisFrame / itemsLeftToLoad)
-      drawRotatedImage(foregroundContext, gearIcon, 32, 32, 32, 32, 192, 0, 1, thisFrame / itemsLeftToLoad)
-      drawRotatedImage(foregroundContext, gearIcon, 0, 0, 32, 32, 256, 0, 1, thisFrame / itemsLeftToLoad)
+      drawRotatedImage(foregroundContext, gearIcon, 0, 0, 64, 64, 736, 386, 2, thisFrame / itemsLeftToLoad);
+    } else {
+      drawImage(backgroundContext, ground, 0, 0, 1280, 720, 390.4, 500, 0.64, thisFrame / itemsLeftToLoad);
+      drawImage(stageContext, player1.sprites.idle, 0, 0, 64, 64, 390.4, player1.y, 0.64, thisFrame / itemsLeftToLoad);
+      player1.y -= player1.yVelocity;
+      player1.yVelocity -= 2 * deltaTime;
+      if (player1.y > 800) {
+        player1.y = 800;
+        player1.yVelocity = 0;
+      };
     };
     window.requestAnimationFrame(frame);
   };
