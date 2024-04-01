@@ -112,14 +112,32 @@ window.addEventListener("load", (loaded) => {
     context.drawImage(image, cropX1, cropY1, cropX2, cropY2, positionX, positionY, Math.round(imageWidth), Math.round(imageHeight));
     context.restore();
   };
+  function drawAbstract(context, image, spriteX, spriteY, spriteSize, x, y, scale, degrees, camera) {
+    let xYCorrection = spriteSize * scale / 2;
+    let cameraScale = 1 / camera.zoom;
+    let trueScale = scale * cameraScale;
+    let newX = x - xYCorrection - camera.x;
+    let newY = y - xYCorrection - camera.y;
+    newX *= cameraScale;
+    newY *= cameraScale;
+    newX += scaleWidth / 2;
+    newY += scaleHeight / 2;
+    drawRotatedImage(context, image, spriteX, spriteY, spriteSize, spriteSize, newX, newY, trueScale, degrees);
+  };
+  let camera = {
+    x: 0, y: 0, zoom: 1
+  }
   let player1 = {
     x: 0, y: 0, hx: 64, hy: 64,
     yVelocity: 0,
-    sprites: {idle: gearIcon}
+    spritesheet: gearIcon,
+    externalSprites: []
   };
   let player2 = {
     x: 0, y: 0, hx: 5, hy: 2
   };
+  let entities = [];
+  let activeHitboxes = []
   function frame(thisFrame) {
     deltaTime = thisFrame - previousFrame;
     previousFrame = thisFrame;
@@ -130,7 +148,7 @@ window.addEventListener("load", (loaded) => {
       drawRotatedImage(foregroundContext, gearIcon, 0, 0, 64, 64, 736, 386, 2, thisFrame / itemsLeftToLoad);
     } else {
       drawImage(backgroundContext, ground, 0, 0, 1280, 720, 390.4, 500, 0.64, thisFrame / itemsLeftToLoad);
-      drawImage(stageContext, player1.sprites.idle, 0, 0, 64, 64, 390.4, player1.y, 0.64, thisFrame / itemsLeftToLoad);
+      drawImage(stageContext, player1.spritesheet, 0, 0, 64, 64, 390.4, player1.y, 0.64, thisFrame / itemsLeftToLoad);
       player1.y -= player1.yVelocity;
       player1.yVelocity -= 2 * deltaTime;
       if (player1.y > 800) {
