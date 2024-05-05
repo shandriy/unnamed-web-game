@@ -16,7 +16,7 @@ var statusChecker13 = undefined;
 var statusChecker14 = undefined;
 var statusChecker15 = undefined;
 var statusChecker16 = undefined;
-function statusCheckerUpdate(name, change) {
+function statusCheckerSet(name, change) {
   if (statusChecker9 == name) {
     var statusChecker1 = change(statusChecker1);
     return;
@@ -158,6 +158,32 @@ function statusCheckerClear(name) {
     return;
   };
 };
+function statusCheckerGet(name) {
+  if (statusChecker9 == name) {
+    return statusChecker1;
+  };
+  if (statusChecker10 == name) {
+    return statusChecker2;
+  };
+  if (statusChecker11 == name) {
+    return statusChecker3;
+  };
+  if (statusChecker12 == name) {
+    return statusChecker4;
+  };
+  if (statusChecker13 == name) {
+    return statusChecker5;
+  };
+  if (statusChecker14 == name) {
+    return statusChecker6;
+  };
+  if (statusChecker15 == name) {
+    return statusChecker7;
+  };
+  if (statusChecker16 == name) {
+    return statusChecker8;
+  };
+};
 window.addEventListener("DOMContentLoaded", function() {
   document.getElementsByTagName("html")[0].style.margin = "0";
   document.getElementsByTagName("body")[0].style.margin = "0";
@@ -236,13 +262,14 @@ window.addEventListener("DOMContentLoaded", function() {
     var model = document.createElement("script");
     model.setAttribute("src", path);
     model.setAttribute("type", "text/javascript");
-    statusChecker1 = 0;
+    statusCheckerCreate(path, 0)
     document.getElementsByTagName("head")[0].appendChild(model);
     function checkModel() {
-      if (statusChecker1 == 0) {
+      console.log(statusCheckerGet(path));
+      if (statusCheckerGet(path) == 0) {
         window.setTimeout(checkModel, 50);
       } else {
-        statusChecker1 = undefined;
+        statusCheckerClear(path);
         loadedModels.push(path);
       };
     };

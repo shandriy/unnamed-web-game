@@ -1,3 +1,5 @@
+"use strict";
+
 var cube = {
   transform: {
     x: 0,
@@ -84,4 +86,7 @@ var cube = {
     ],
   ]
 }
-statusChecker1 = 1;
+function change() {
+  return 1;
+};
+statusCheckerSet("assets/models/cube.js", change);
