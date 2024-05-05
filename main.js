@@ -19,11 +19,11 @@ window.addEventListener("DOMContentLoaded", function() {
   var pxHeight = 1;
   var unitWidth = 500;
   var unitHeight = 300;
+  var aspectRatio = 5 / 3;
   context.fillStyle = "#000";
   context.fillRect(0, 0, 500, 300);
   context.fill();
   function resizeCanvas(canvas) {
-    var aspectRatio = 5 / 3;
     var width = window.innerWidth;
     var height = window.innerHeight;
     var cWidth = 500;
@@ -59,4 +59,21 @@ window.addEventListener("DOMContentLoaded", function() {
   window.addEventListener("focus", function() {
     resizeCanvas(canvas);
   });
+  var cube = 0;
+  function frame(lastFrame) {
+    var now = Date.now();
+    var deltaTime = now - lastFrame;
+    var width = canvas.getAttribute("width");
+    var height = canvas.getAttribute("height");
+    context.clearRect(0, 0, width, height);
+    cube = cube + deltaTime / 50;
+    context.fillStyle = "#f00";
+    context.fillRect(cube, cube, 20, 20);
+    context.fill();
+
+    window.setTimeout(function() {
+      frame(now)
+    });
+  };
+  frame(Date.now());
 });
