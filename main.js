@@ -15,6 +15,7 @@ window.addEventListener("DOMContentLoaded", function() {
   document.getElementsByTagName("canvas")[0].setAttribute("height", "300");
   var canvas = document.getElementsByTagName("canvas")[0];
   var context = canvas.getContext("2d", { alpha: false });
+  var pi = Math.PI;
   var pxWidth = 1;
   var pxHeight = 1;
   var unitWidth = 500;
@@ -23,7 +24,7 @@ window.addEventListener("DOMContentLoaded", function() {
   context.fillStyle = "#000";
   context.fillRect(0, 0, 500, 300);
   context.fill();
-  function resizeCanvas(canvas) {
+  function resizeCanvas() {
     var width = window.innerWidth;
     var height = window.innerHeight;
     var cWidth = 500;
@@ -52,23 +53,19 @@ window.addEventListener("DOMContentLoaded", function() {
     pxWidth = cWidth / unitWidth;
     pxHeight = cHeight / unitHeight;
   };
-  resizeCanvas(canvas);
-  window.addEventListener("resize", function() {
-    resizeCanvas(canvas);
-  });
-  window.addEventListener("focus", function() {
-    resizeCanvas(canvas);
-  });
-  var cube = 0;
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+  window.addEventListener("focus", resizeCanvas);
+  var square = 0;
   function frame(lastFrame) {
     var now = Date.now();
     var deltaTime = now - lastFrame;
     var width = canvas.getAttribute("width");
     var height = canvas.getAttribute("height");
     context.clearRect(0, 0, width, height);
-    cube = cube + deltaTime / 50;
+    square = square + deltaTime / 50;
     context.fillStyle = "#f00";
-    context.fillRect(cube, cube, 20, 20);
+    context.fillRect(square, square, 20, 20);
     context.fill();
 
     window.setTimeout(function() {
@@ -76,4 +73,16 @@ window.addEventListener("DOMContentLoaded", function() {
     });
   };
   frame(Date.now());
+  function batchModelBatch() {
+
+  }
+  function slicePolygonBatch() {
+
+  }
+  function projectTriangleBatch() {
+
+  }
+  function renderTriangleBatch() {
+
+  }
 });
