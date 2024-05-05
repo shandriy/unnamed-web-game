@@ -16,6 +16,148 @@ var statusChecker13 = undefined;
 var statusChecker14 = undefined;
 var statusChecker15 = undefined;
 var statusChecker16 = undefined;
+function statusCheckerUpdate(name, change) {
+  if (statusChecker9 == name) {
+    var statusChecker1 = change(statusChecker1);
+    return;
+  };
+  if (statusChecker10 == name) {
+    var statusChecker2 = change(statusChecker2);
+    return;
+  };
+  if (statusChecker11 == name) {
+    var statusChecker3 = change(statusChecker3);
+    return;
+  };
+  if (statusChecker12 == name) {
+    var statusChecker4 = change(statusChecker4);
+    return;
+  };
+  if (statusChecker13 == name) {
+    var statusChecker5 = change(statusChecker5);
+    return;
+  };
+  if (statusChecker14 == name) {
+    var statusChecker6 = change(statusChecker6);
+    return;
+  };
+  if (statusChecker15 == name) {
+    var statusChecker7 = change(statusChecker7);
+    return;
+  };
+  if (statusChecker16 == name) {
+    var statusChecker8 = change(statusChecker8);
+    return;
+  };
+};
+function statusCheckerCreate(name, value) {
+  if (statusChecker9 == name) {
+    return;
+  };
+  if (statusChecker10 == name) {
+    return;
+  };
+  if (statusChecker11 == name) {
+    return;
+  };
+  if (statusChecker12 == name) {
+    return;
+  };
+  if (statusChecker13 == name) {
+    return;
+  };
+  if (statusChecker14 == name) {
+    return;
+  };
+  if (statusChecker15 == name) {
+    return;
+  };
+  if (statusChecker16 == name) {
+    return;
+  };
+  if (statusChecker9 == undefined) {
+    statusChecker1 = value;
+    statusChecker9 = name;
+    return;
+  };
+  if (statusChecker10 == undefined) {
+    statusChecker2 = value;
+    statusChecker10 = name;
+    return;
+  };
+  if (statusChecker11 == undefined) {
+    statusChecker3 = value;
+    statusChecker11 = name;
+    return;
+  };
+  if (statusChecker12 == undefined) {
+    statusChecker4 = value;
+    statusChecker12 = name;
+    return;
+  };
+  if (statusChecker13 == undefined) {
+    statusChecker5 = value;
+    statusChecker13 = name;
+    return;
+  };
+  if (statusChecker14 == undefined) {
+    statusChecker6 = value;
+    statusChecker14 = name;
+    return;
+  };
+  if (statusChecker15 == undefined) {
+    statusChecker7 = value;
+    statusChecker15 = name;
+    return;
+  };
+  if (statusChecker16 == undefined) {
+    statusChecker8 = value;
+    statusChecker16 = name;
+    return;
+  };
+};
+function statusCheckerClear(name) {
+  if (statusChecker9 == name) {
+    statusChecker1 = undefined;
+    statusChecker9 = undefined;
+    return;
+  };
+  if (statusChecker10 == name) {
+    statusChecker2 = undefined;
+    statusChecker10 = undefined;
+    return;
+  };
+  if (statusChecker11 == name) {
+    statusChecker3 = undefined;
+    statusChecker11 = undefined;
+    return;
+  };
+  if (statusChecker12 == name) {
+    statusChecker4 = undefined;
+    statusChecker12 = undefined;
+    return;
+  };
+  if (statusChecker13 == name) {
+    statusChecker5 = undefined;
+    statusChecker13 = undefined;
+    return;
+  };
+  if (statusChecker14 == name) {
+    statusChecker6 = undefined;
+    statusChecker14 = undefined;
+    return;
+  };
+  if (statusChecker15 == name) {
+    statusChecker7 = undefined;
+    statusChecker15 = undefined;
+    return;
+  };
+  if (statusChecker16 == name) {
+    statusChecker8 = undefined;
+    statusChecker16 = undefined;
+    return;
+  };
+};
 window.addEventListener("DOMContentLoaded", function() {
   document.getElementsByTagName("html")[0].style.margin = "0";
   document.getElementsByTagName("body")[0].style.margin = "0";
