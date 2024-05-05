@@ -86,7 +86,4 @@ var cube = {
     ],
   ]
 }
-function change() {
-  return 1;
-};
-statusCheckerSet("assets/models/cube.js", change);
+statusCheckerSet("assets/models/cube.js", 1);
