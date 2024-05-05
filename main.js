@@ -29,6 +29,7 @@ function statusCheckerClear(name) {
   };
 };
 window.addEventListener("DOMContentLoaded", function() {
+  statusCheckerMake("ModelsReady?", 0);
   document.getElementsByTagName("html")[0].style.margin = "0";
   document.getElementsByTagName("body")[0].style.margin = "0";
   document.getElementsByTagName("html")[0].style.padding = "0";
@@ -44,6 +45,7 @@ window.addEventListener("DOMContentLoaded", function() {
   var canvas = document.getElementsByTagName("canvas")[0];
   var context = canvas.getContext("2d", { alpha: false });
   var pi = Math.PI;
+  var radians = pi / 180;
   var pxWidth = 1;
   var pxHeight = 1;
   var unitWidth = 500;
@@ -119,6 +121,11 @@ window.addEventListener("DOMContentLoaded", function() {
     checkModel();
   };
   loadModel("assets/models/cube.js");
+  window.setTimeout(function() {
+    var polygonBatch = batchModelBatch([cube]);
+    var renderBatch = projectTriangleBatch(polygonBatch, camera);
+    renderPolygonBatch(renderBatch);
+  }, 200)
   var camera = {
     coordinates: {
       x: 0,
@@ -146,15 +153,18 @@ window.addEventListener("DOMContentLoaded", function() {
         + modelObject.transform.centerY,
         modelObject.transform.z
         + modelObject.position.z
-        + modelObject.transform.centerZ];
+        + modelObject.transform.centerZ
+      ];
       var transformFixer = [
         0 - modelObject.transform.centerX,
         0 - modelObject.transform.centerY,
-        0 - modelObject.transform.centerZ];
+        0 - modelObject.transform.centerZ
+      ];
       var scaleFixer = [
         modelObject.transform.scaleX,
         modelObject.transform.scaleY,
-        modelObject.transform.scaleZ];
+        modelObject.transform.scaleZ
+      ];
       var polygonData = modelObject.polygonData;
       var amount = polygonData.length;
       for (var j = 0; j < amount; j = j + 1) {
@@ -178,10 +188,47 @@ window.addEventListener("DOMContentLoaded", function() {
   function slicePolygonBatch() {
 
   };
-  function projectTriangleBatch() {
-
+  function projectTriangleBatch(triangleArray, camera) {
+    var renderArray = [];
+    var length = triangleArray.length;
+    var distance = Math.round(Math.tan(camera.fov / 2 * radians) * unitWidth / 2);
+    var cameraPosition = [
+      camera.coordinates.x,
+      camera.coordinates.y,
+      camera.coordinates.z
+    ];
+    for (var i = 0; i < length; i = i + 1) {
+      renderArray.push([]);
+      var triangle = triangleArray[i];
+      for (var j = 0; j < 3; j = j + 1) {
+        renderArray[i].push([]);
+        var vertex = triangle[j];
+        var vertexFixed = [
+          vertex[0] - cameraPosition[0],
+          vertex[1] - cameraPosition[1],
+          vertex[2] - cameraPosition[2]
+        ];
+        var multiplier = distance / vertexFixed[2];
+        for (var k = 0; k < 2; k = k + 1) {
+          renderArray[i][j].push(vertexFixed[k] * multiplier);
+        };
+      };
+    };
+    return renderArray;
   };
-  function renderTriangleBatch() {
-
+  function renderPolygonBatch(renderArray) {
+    var length = renderArray.length;
+    for (var i = 0; i < length; i = i + 1) {
+      var polygon = renderArray[i]
+      context.fillStyle = "#f00";
+      context.beginPath();
+      context.moveTo(polygon[0][0], polygon[0][1]);
+      var points = polygon.length;
+      for (var j = 1; j < points; j = j + 1) {
+        context.lineTo(polygon[j][0], polygon[j][1]);
+      };
+      context.fill();
+      context.closePath();
+    };
   };
 });
