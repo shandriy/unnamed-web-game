@@ -84,3 +84,4 @@ var cube = {
     ],
   ]
 }
+statusChecker1 = 1;

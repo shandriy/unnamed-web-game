@@ -1,5 +1,21 @@
 "use strict";
 
+var statusChecker1 = undefined;
+var statusChecker2 = undefined;
+var statusChecker3 = undefined;
+var statusChecker4 = undefined;
+var statusChecker5 = undefined;
+var statusChecker6 = undefined;
+var statusChecker7 = undefined;
+var statusChecker8 = undefined;
+var statusChecker9 = undefined;
+var statusChecker10 = undefined;
+var statusChecker11 = undefined;
+var statusChecker12 = undefined;
+var statusChecker13 = undefined;
+var statusChecker14 = undefined;
+var statusChecker15 = undefined;
+var statusChecker16 = undefined;
 window.addEventListener("DOMContentLoaded", function() {
   document.getElementsByTagName("html")[0].style.margin = "0";
   document.getElementsByTagName("body")[0].style.margin = "0";
@@ -21,6 +37,7 @@ window.addEventListener("DOMContentLoaded", function() {
   var unitWidth = 500;
   var unitHeight = 300;
   var aspectRatio = 5 / 3;
+  var loadedModels = [];
   context.fillStyle = "#000";
   context.fillRect(0, 0, 500, 300);
   context.fill();
@@ -73,16 +90,33 @@ window.addEventListener("DOMContentLoaded", function() {
     });
   };
   frame(Date.now());
+  function loadModel(path) {
+    var model = document.createElement("script");
+    model.setAttribute("src", path);
+    model.setAttribute("type", "text/javascript");
+    statusChecker1 = 0;
+    document.getElementsByTagName("head")[0].appendChild(model);
+    function checkModel() {
+      if (statusChecker1 == 0) {
+        window.setTimeout(checkModel, 50);
+      } else {
+        statusChecker1 = undefined;
+        loadedModels.push(path);
+      };
+    };
+    checkModel();
+  };
+  loadModel("assets/models/cube.js");
   function batchModelBatch() {
 
-  }
+  };
   function slicePolygonBatch() {
 
-  }
+  };
   function projectTriangleBatch() {
 
-  }
+  };
   function renderTriangleBatch() {
 
-  }
+  };
 });
