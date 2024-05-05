@@ -109,7 +109,6 @@ window.addEventListener("DOMContentLoaded", function() {
     statusCheckerMake(path, 0)
     document.getElementsByTagName("head")[0].appendChild(model);
     function checkModel() {
-      console.log(statusCheckerGet(path));
       if (statusCheckerGet(path) == 0) {
         window.setTimeout(checkModel, 50);
       } else {
@@ -120,8 +119,48 @@ window.addEventListener("DOMContentLoaded", function() {
     checkModel();
   };
   loadModel("assets/models/cube.js");
-  function batchModelBatch() {
-
+  function batchModelBatch(modelArray) {
+    var polygonArray = [];
+    var length = modelArray.length;
+    for (var i = 0; i < length; i = i + 1) {
+      var modelObject = modelArray[i];
+      var positionsArray = [
+        modelObject.transform.x
+        + modelObject.position.x
+        + modelObject.transform.centerX,
+        modelObject.transform.y
+        + modelObject.position.y
+        + modelObject.transform.centerY,
+        modelObject.transform.z
+        + modelObject.position.z
+        + modelObject.transform.centerZ];
+      var transformFixer = [
+        0 - modelObject.transform.centerX,
+        0 - modelObject.transform.centerY,
+        0 - modelObject.transform.centerZ];
+      var scaleFixer = [
+        modelObject.transform.scaleX,
+        modelObject.transform.scaleY,
+        modelObject.transform.scaleZ];
+      var polygonData = modelObject.polygonData;
+      var amount = polygonData.length;
+      for (var j = 0; j < amount; j = j + 1) {
+        polygonArray.push([]);
+        var polygon = polygonData[j];
+        var vertices = polygon.length;
+        for (var k = 0; k < vertices; k = k + 1) {
+          var vertex = polygon[k];
+          polygonArray[j].push([]);
+          for (var l = 0; l < 3; l = l + 1) {
+            var coordinate = vertex[l] + transformFixer[l];
+            coordinate = coordinate * scaleFixer[l];
+            coordinate = coordinate + positionsArray[l];
+            polygonArray[j][k].push(coordinate);
+          };
+        };
+      };
+    };
+    return polygonArray;
   };
   function slicePolygonBatch() {
 
