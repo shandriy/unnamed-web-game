@@ -87,3 +87,5 @@ var cube = {
   ]
 }
 statusCheckerSet("assets/models/cube.js", 1);
+var modelCount = statusCheckerGet("ModelsReady?");
+statusCheckerSet("ModelsReady?", modelCount + 1);

@@ -93,17 +93,18 @@ window.addEventListener("DOMContentLoaded", function() {
     var deltaTime = now - lastFrame;
     var width = canvas.getAttribute("width");
     var height = canvas.getAttribute("height");
-    context.clearRect(0, 0, width, height);
-    square = square + deltaTime / 50;
-    context.fillStyle = "#f00";
-    context.fillRect(square, square, 20, 20);
-    context.fill();
+
+    cube.position.x += deltaTime / 1000;
+    cube.position.z += deltaTime / 100;
+    var polygonBatch = batchModelBatch([cube]);
+    var renderBatch = projectTriangleBatch(polygonBatch, camera);
+    renderPolygonBatch(renderBatch);
+
 
     window.setTimeout(function() {
       frame(now)
     });
   };
-  frame(Date.now());
   function loadModel(path) {
     var model = document.createElement("script");
     model.setAttribute("src", path);
@@ -122,9 +123,15 @@ window.addEventListener("DOMContentLoaded", function() {
   };
   loadModel("assets/models/cube.js");
   window.setTimeout(function() {
-    var polygonBatch = batchModelBatch([cube]);
-    var renderBatch = projectTriangleBatch(polygonBatch, camera);
-    renderPolygonBatch(renderBatch);
+    function ifReady() {
+      var get = statusCheckerGet("ModelsReady?");
+      if (get >= 1) {
+        frame(Date.now());
+      } else {
+        window.setTimeout(ifReady, 50);
+      };
+    };
+    ifReady();
   }, 200)
   var camera = {
     coordinates: {
@@ -217,15 +224,26 @@ window.addEventListener("DOMContentLoaded", function() {
     return renderArray;
   };
   function renderPolygonBatch(renderArray) {
+    var width = canvas.getAttribute("width");
+    var height = canvas.getAttribute("height");
+    var convertWidth = unitWidth / 2;
+    var convertHeight = unitHeight / 2;
+    context.clearRect(0, 0, width, height);
     var length = renderArray.length;
     for (var i = 0; i < length; i = i + 1) {
       var polygon = renderArray[i]
       context.fillStyle = "#f00";
       context.beginPath();
-      context.moveTo(polygon[0][0], polygon[0][1]);
+      context.moveTo(
+        Math.round((polygon[0][0] + convertWidth) * pxWidth),
+        Math.round((polygon[0][1] + convertHeight) * pxHeight)
+      );
       var points = polygon.length;
       for (var j = 1; j < points; j = j + 1) {
-        context.lineTo(polygon[j][0], polygon[j][1]);
+        context.lineTo(
+          Math.round((polygon[j][0] + convertWidth) * pxWidth),
+          Math.round((polygon[j][1] + convertHeight) * pxHeight)
+        );
       };
       context.fill();
       context.closePath();
