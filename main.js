@@ -30,19 +30,21 @@ function statusCheckerClear(name) {
 };
 window.addEventListener("DOMContentLoaded", function() {
   statusCheckerMake("ModelsReady?", 0);
-  document.getElementsByTagName("html")[0].style.margin = "0";
-  document.getElementsByTagName("body")[0].style.margin = "0";
-  document.getElementsByTagName("html")[0].style.padding = "0";
-  document.getElementsByTagName("body")[0].style.padding = "0";
-  document.getElementsByTagName("canvas")[0].style.top = "0px";
-  document.getElementsByTagName("canvas")[0].style.left = "0px";
-  document.getElementsByTagName("canvas")[0].style.margin = "0";
-  document.getElementsByTagName("canvas")[0].style.padding = "0";
-  document.getElementsByTagName("html")[0].style.overflow = "hidden";
-  document.getElementsByTagName("canvas")[0].style.position = "absolute";
-  document.getElementsByTagName("canvas")[0].setAttribute("width", "500");
-  document.getElementsByTagName("canvas")[0].setAttribute("height", "300");
+  var html = document.getElementsByTagName("html")[0];
+  var body = document.getElementsByTagName("body")[0];
   var canvas = document.getElementsByTagName("canvas")[0];
+  html.style.margin = "0";
+  body.style.margin = "0";
+  html.style.padding = "0";
+  body.style.padding = "0";
+  canvas.style.top = "0px";
+  canvas.style.left = "0px";
+  canvas.style.margin = "0";
+  canvas.style.padding = "0";
+  html.style.overflow = "hidden";
+  canvas.style.position = "absolute";
+  canvas.setAttribute("width", "500");
+  canvas.setAttribute("height", "300");
   var context = canvas.getContext("2d", { alpha: false });
   var pi = Math.PI;
   var radians = pi / 180;
@@ -99,7 +101,6 @@ window.addEventListener("DOMContentLoaded", function() {
     var polygonBatch = batchModelBatch([cube]);
     var renderBatch = projectTriangleBatch(polygonBatch, camera);
     renderPolygonBatch(renderBatch);
-
 
     window.setTimeout(function() {
       frame(now)
