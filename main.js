@@ -318,8 +318,9 @@ window.addEventListener("DOMContentLoaded", function() {
       };
       triangleWidths.sort(sortSmaller);
       triangleHeights.sort(sortSmaller);
-      //context.clip();
+      context.clip();
       context.closePath();
+      context.transform(1, 0, 0, 1, 0, 0);
       context.drawImage(image,
         (triangleWidths[0] + convertWidth) * pxWidth,
         (triangleHeights[0] + convertHeight) * pxHeight,
