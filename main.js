@@ -157,10 +157,10 @@ window.addEventListener("DOMContentLoaded", function() {
     var height = canvas.getAttribute("height");
 
     cube.position.x += deltaTime / 1000;
-    cube.position.z += deltaTime / 100;
+    cube.position.z += deltaTime / 500;
     var polygonBatch = batchModelBatch([cube]);
     var renderBatch = projectTriangleBatch(polygonBatch, camera);
-    renderPolygonBatch(renderBatch);
+    renderTriangleBatch(renderBatch);
 
     window.setTimeout(function() {
       frame(now)
@@ -182,6 +182,8 @@ window.addEventListener("DOMContentLoaded", function() {
     };
     checkModel();
   };
+  var image = new Image();
+  image.src = "assets/images/placeholder.png";
   loadModel("assets/models/cube.js");
   window.setTimeout(function() {
     function ifReady() {
@@ -284,7 +286,10 @@ window.addEventListener("DOMContentLoaded", function() {
     };
     return renderArray;
   };
-  function renderPolygonBatch(renderArray) {
+  function renderTriangleBatch(renderArray) {
+    function sortSmaller(a, b) {
+      return a - b;
+    };
     var width = canvas.getAttribute("width");
     var height = canvas.getAttribute("height");
     var convertWidth = unitWidth / 2;
@@ -292,22 +297,35 @@ window.addEventListener("DOMContentLoaded", function() {
     context.clearRect(0, 0, width, height);
     var length = renderArray.length;
     for (var i = 0; i < length; i = i + 1) {
-      var polygon = renderArray[i]
+      var triangle = renderArray[i]
       context.fillStyle = "#f00";
+      var triangleWidths = [triangle[0][0]];
+      var triangleHeights = [triangle[0][1]];
+      context.save();
       context.beginPath();
       context.moveTo(
-        Math.round((polygon[0][0] + convertWidth) * pxWidth),
-        Math.round((polygon[0][1] + convertHeight) * pxHeight)
+        Math.round((triangle[0][0] + convertWidth) * pxWidth),
+        Math.round((triangle[0][1] + convertHeight) * pxHeight)
       );
-      var points = polygon.length;
+      var points = triangle.length;
       for (var j = 1; j < points; j = j + 1) {
         context.lineTo(
-          Math.round((polygon[j][0] + convertWidth) * pxWidth),
-          Math.round((polygon[j][1] + convertHeight) * pxHeight)
+          Math.round((triangle[j][0] + convertWidth) * pxWidth),
+          Math.round((triangle[j][1] + convertHeight) * pxHeight)
         );
+        triangleWidths.push(triangle[j][0]);
+        triangleHeights.push(triangle[j][1]);
       };
-      context.fill();
+      triangleWidths.sort(sortSmaller);
+      triangleHeights.sort(sortSmaller);
+      //context.clip();
       context.closePath();
+      context.drawImage(image,
+        (triangleWidths[0] + convertWidth) * pxWidth,
+        (triangleHeights[0] + convertHeight) * pxHeight,
+        (triangleWidths[triangleWidths.length - 1] - triangleWidths[0]) * pxWidth,
+        (triangleHeights[triangleHeights.length - 1] - triangleHeights[0]) * pxHeight);
+      context.restore();
     };
   };
 });
