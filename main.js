@@ -54,6 +54,10 @@ www.gnu.org/licenses/gpl-3.0-standalone.html
 www.gnu.org/licenses
 /COPYING
 
+/COPYING refers to the root directory of this
+program. This also applies for the mention of the
+./COPYING path in a few lines from here
+
 A local version should be provided here: ./COPYING
 This is assuming neither this file nor the license
 have been moved.
