@@ -116,7 +116,7 @@ window.addEventListener("DOMContentLoaded", function() {
   var pxHeight = 1;
   var unitWidth = 500;
   var unitHeight = 300;
-  var aspectRatio = 5 / 3;
+  var aspectRatio = unitWidth / unitHeight;
   var loadedModels = [];
   context.fillStyle = "#000";
   context.fillRect(0, 0, 500, 300);
@@ -247,12 +247,16 @@ window.addEventListener("DOMContentLoaded", function() {
         var vertices = polygon.length;
         for (var k = 0; k < vertices; k = k + 1) {
           var vertex = polygon[k];
+          var coordinates = vertex.length;
           polygonArray[j].push([]);
           for (var l = 0; l < 3; l = l + 1) {
             var coordinate = vertex[l] + transformFixer[l];
             coordinate = coordinate * scaleFixer[l];
             coordinate = coordinate + positionsArray[l];
             polygonArray[j][k].push(coordinate);
+          };
+          for (var l = 3; l < coordinates; l = l + 1) {
+            polygonArray[j][k].push(vertex[l]);
           };
         };
       };
@@ -277,6 +281,7 @@ window.addEventListener("DOMContentLoaded", function() {
       for (var j = 0; j < 3; j = j + 1) {
         renderArray[i].push([]);
         var vertex = triangle[j];
+        var vertices = vertex.length;
         var vertexFixed = [
           vertex[0] - cameraPosition[0],
           vertex[1] - cameraPosition[1],
@@ -285,6 +290,9 @@ window.addEventListener("DOMContentLoaded", function() {
         var multiplier = distance / vertexFixed[2];
         for (var k = 0; k < 2; k = k + 1) {
           renderArray[i][j].push(vertexFixed[k] * multiplier);
+        };
+        for (var k = 3; k < vertices; k = k + 1) {
+          renderArray[i][j].push(vertex[k]);
         };
       };
     };
@@ -311,8 +319,7 @@ window.addEventListener("DOMContentLoaded", function() {
         Math.round((triangle[0][0] + convertWidth) * pxWidth),
         Math.round((triangle[0][1] + convertHeight) * pxHeight)
       );
-      var points = triangle.length;
-      for (var j = 1; j < points; j = j + 1) {
+      for (var j = 1; j < 3; j = j + 1) {
         context.lineTo(
           Math.round((triangle[j][0] + convertWidth) * pxWidth),
           Math.round((triangle[j][1] + convertHeight) * pxHeight)
