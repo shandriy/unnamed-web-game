@@ -240,23 +240,24 @@ window.addEventListener("DOMContentLoaded", function() {
       var polygonData = modelObject.polygonData;
       var amount = polygonData.length;
       for (var j = 0; j < amount; j = j + 1) {
-        polygonArray.push([]);
+        polygonArray.push([[]]);
         var polygon = polygonData[j][0];
         var vertices = polygon.length;
         for (var k = 0; k < vertices; k = k + 1) {
           var vertex = polygon[k];
           var coordinates = vertex.length;
-          polygonArray[j].push([]);
+          polygonArray[j][0].push([]);
           for (var l = 0; l < 3; l = l + 1) {
             var coordinate = vertex[l] + transformFixer[l];
             coordinate = coordinate * scaleFixer[l];
             coordinate = coordinate + positionsArray[l];
-            polygonArray[j][k].push(coordinate);
+            polygonArray[j][0][k].push(coordinate);
           };
           for (var l = 3; l < coordinates; l = l + 1) {
-            polygonArray[j][k].push(vertex[l]);
+            polygonArray[j][0][k].push(vertex[l]);
           };
         };
+        polygonArray[j].push(polygonData[j][1]);
       };
     };
     return polygonArray;
@@ -274,10 +275,11 @@ window.addEventListener("DOMContentLoaded", function() {
       camera.coordinates.z
     ];
     for (var i = 0; i < length; i = i + 1) {
-      renderArray.push([]);
-      var triangle = triangleArray[i];
+      renderArray.push([[]]);
+      var triangle = triangleArray[i][0];
+      renderArray[i].push(triangleArray[i][1]);
       for (var j = 0; j < 3; j = j + 1) {
-        renderArray[i].push([]);
+        renderArray[i][0].push([]);
         var vertex = triangle[j];
         var vertices = vertex.length;
         var vertexFixed = [
@@ -287,10 +289,10 @@ window.addEventListener("DOMContentLoaded", function() {
         ];
         var multiplier = distance / vertexFixed[2];
         for (var k = 0; k < 2; k = k + 1) {
-          renderArray[i][j].push(vertexFixed[k] * multiplier);
+          renderArray[i][0][j].push(vertexFixed[k] * multiplier);
         };
         for (var k = 3; k < vertices; k = k + 1) {
-          renderArray[i][j].push(vertex[k]);
+          renderArray[i][0][j].push(vertex[k]);
         };
       };
     };
@@ -307,8 +309,13 @@ window.addEventListener("DOMContentLoaded", function() {
     context.clearRect(0, 0, width, height);
     var length = renderArray.length;
     for (var i = 0; i < length; i = i + 1) {
-      var triangle = renderArray[i]
-      context.fillStyle = "#f00";
+      var triangle = renderArray[i][0];
+      var color = renderArray[i][1];
+      context.fillStyle =
+        "rgb(" +
+        color[0] + "," +
+        color[1] + "," +
+        color[2] + ")";
       context.beginPath();
       context.moveTo(
         Math.round((triangle[0][0] + convertWidth) * pxWidth),
