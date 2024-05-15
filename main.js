@@ -209,7 +209,8 @@ window.addEventListener("DOMContentLoaded", function() {
       pitch: 0,
       roll: 0
     },
-    fov: 90
+    fov: 90,
+    renderDistance: 200
   };
   function batchModelBatch(modelArray) {
     var polygonArray = [];
@@ -277,7 +278,7 @@ window.addEventListener("DOMContentLoaded", function() {
     for (var i = 0; i < length; i = i + 1) {
       renderArray.push([[]]);
       var triangle = triangleArray[i][0];
-      renderArray[i].push(triangleArray[i][1]);
+      var colorDistances = [];
       for (var j = 0; j < 3; j = j + 1) {
         renderArray[i][0].push([]);
         var vertex = triangle[j];
@@ -287,6 +288,7 @@ window.addEventListener("DOMContentLoaded", function() {
           vertex[1] - cameraPosition[1],
           vertex[2] - cameraPosition[2]
         ];
+        colorDistances.push(vertexFixed[2]);
         var multiplier = distance / vertexFixed[2];
         for (var k = 0; k < 2; k = k + 1) {
           renderArray[i][0][j].push(vertexFixed[k] * multiplier);
@@ -295,6 +297,17 @@ window.addEventListener("DOMContentLoaded", function() {
           renderArray[i][0][j].push(vertex[k]);
         };
       };
+      var colorDistance = 0;
+      for (var j = 0; j < 3; j = j + 1) {
+        colorDistance = colorDistance + colorDistances[j];
+      };
+      colorDistance = colorDistance / 3;
+      var color = triangleArray[i][1];
+      var colorModifier = 1 - (colorDistance / camera.renderDistance);
+      for (var j = 0; j < 3; j = j + 1) {
+        color[j] = color[j] * colorModifier;
+      };
+      renderArray[i].push(color);
     };
     return renderArray;
   };
@@ -313,9 +326,10 @@ window.addEventListener("DOMContentLoaded", function() {
       var color = renderArray[i][1];
       context.fillStyle =
         "rgb(" +
-        color[0] + "," +
-        color[1] + "," +
-        color[2] + ")";
+          color[0] + "," +
+          color[1] + "," +
+          color[2] +
+        ")";
       context.beginPath();
       context.moveTo(
         Math.round((triangle[0][0] + convertWidth) * pxWidth),
