@@ -241,7 +241,7 @@ window.addEventListener("DOMContentLoaded", function() {
       var amount = polygonData.length;
       for (var j = 0; j < amount; j = j + 1) {
         polygonArray.push([]);
-        var polygon = polygonData[j];
+        var polygon = polygonData[j][0];
         var vertices = polygon.length;
         for (var k = 0; k < vertices; k = k + 1) {
           var vertex = polygon[k];
