@@ -186,8 +186,6 @@ window.addEventListener("DOMContentLoaded", function() {
     };
     checkModel();
   };
-  var image = new Image();
-  image.src = "assets/images/placeholder.png";
   loadModel("assets/models/cube.js");
   window.setTimeout(function() {
     function ifReady() {
@@ -311,9 +309,6 @@ window.addEventListener("DOMContentLoaded", function() {
     for (var i = 0; i < length; i = i + 1) {
       var triangle = renderArray[i]
       context.fillStyle = "#f00";
-      var triangleWidths = [triangle[0][0]];
-      var triangleHeights = [triangle[0][1]];
-      context.save();
       context.beginPath();
       context.moveTo(
         Math.round((triangle[0][0] + convertWidth) * pxWidth),
@@ -324,20 +319,9 @@ window.addEventListener("DOMContentLoaded", function() {
           Math.round((triangle[j][0] + convertWidth) * pxWidth),
           Math.round((triangle[j][1] + convertHeight) * pxHeight)
         );
-        triangleWidths.push(triangle[j][0]);
-        triangleHeights.push(triangle[j][1]);
       };
-      triangleWidths.sort(sortSmaller);
-      triangleHeights.sort(sortSmaller);
-      context.clip();
+      context.fill();
       context.closePath();
-      context.transform(1, 0, 0, 1, 0, 0);
-      context.drawImage(image,
-        (triangleWidths[0] + convertWidth) * pxWidth,
-        (triangleHeights[0] + convertHeight) * pxHeight,
-        (triangleWidths[triangleWidths.length - 1] - triangleWidths[0]) * pxWidth,
-        (triangleHeights[triangleHeights.length - 1] - triangleHeights[0]) * pxHeight);
-      context.restore();
     };
   };
 });
