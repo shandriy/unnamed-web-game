@@ -305,16 +305,13 @@ window.addEventListener("DOMContentLoaded", function() {
       var color = triangleArray[i][1];
       var colorModifier = 1 - (colorDistance / camera.renderDistance);
       for (var j = 0; j < 3; j = j + 1) {
-        color[j] = color[j] * colorModifier;
+        color[j] = Math.round(color[j] * colorModifier);
       };
       renderArray[i].push(color);
     };
     return renderArray;
   };
   function renderTriangleBatch(renderArray) {
-    function sortSmaller(a, b) {
-      return a - b;
-    };
     var width = canvas.getAttribute("width");
     var height = canvas.getAttribute("height");
     var convertWidth = unitWidth / 2;
